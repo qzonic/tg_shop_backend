@@ -13,8 +13,8 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ('title', 'slug')
-        read_only_fields = ('title', 'slug')
+        fields = ('title', 'slug', 'full_title')
+        read_only_fields = ('title', 'slug', 'full_title')
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -47,15 +47,8 @@ class CustomerSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     """ Сериалайзер для заказа """
 
-    product = serializers.SlugRelatedField(
-        slug_field='slug',
-        queryset=Product.objects
-    )
-    customer = serializers.SlugRelatedField(
-        slug_field='tg_id',
-        queryset=Customer.objects,
-        required=False
-    )
+    product = ProductSerializer()
+    customer = CustomerSerializer()
 
     class Meta:
         model = Order

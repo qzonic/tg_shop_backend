@@ -13,11 +13,14 @@ from .views import (
 router = DefaultRouter()
 
 router.register('lessons', LessonViewSet)
-router.register('products', ProductViewSet)
+router.register(r'lessons/(?P<lesson_slug>[^/.]+)/products',
+                ProductViewSet,
+                basename='products',
+                )
 router.register('customers', CustomerViewSet)
 router.register(r'orders/(?P<tg_id>\d+)',
                 OrderViewSet,
-                basename='orders'
+                basename='orders',
                 )
 
 

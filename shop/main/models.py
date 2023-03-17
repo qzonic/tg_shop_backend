@@ -5,10 +5,15 @@ class Lesson(models.Model):
     """ Модель урока """
 
     title = models.CharField(
-        max_length=128,
+        max_length=10,
         unique=True
     )
     slug = models.SlugField(unique=True)
+    full_title = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return f'{self.title} | {self.slug}'
@@ -58,13 +63,20 @@ class Order(models.Model):
 
     product = models.ForeignKey(
         Product,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='orders',
     )
     customer = models.ForeignKey(
         Customer,
         on_delete=models.CASCADE,
-        related_name='orders'
+        related_name='orders',
     )
 
     def __str__(self):
         return f'{self.customer.tg_id} | {self.product.title}'
+
+    class Meta:
+        constraints = [models.UniqueConstraint(
+            fields=['product', 'customer'],
+            name='unique product and customer',
+        )]

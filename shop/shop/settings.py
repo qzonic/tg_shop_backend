@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from datetime import timedelta
 
 from dotenv import load_dotenv
 
@@ -25,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
     'main.apps.MainConfig',
     'api.apps.ApiConfig',
 ]
@@ -109,4 +109,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication'
     ]
+}
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
 }
